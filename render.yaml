@@ -1,0 +1,17 @@
+# Render deployment config — FREE Web Service mode
+# Uses a tiny Flask health server so the bot qualifies as a Web Service.
+# FREE TIER NOTE: sleeps after 15 min idle. Keep it alive with a free
+# pinger (UptimeRobot / cron-job.org) hitting https://<yourapp>.onrender.com/health
+# every ~10 minutes.
+
+services:
+  - type: web
+    name: npvs-decrypt-bot
+    runtime: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python npvs_decrypt_bot.py"
+    envVars:
+      - key: BOT_TOKEN
+        sync: false   # set in Render dashboard (Settings > Environment) — never commit it
+    autoDeploy: true
